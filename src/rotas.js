@@ -1,8 +1,7 @@
 const express = require('express');
+const cadastroDoCliente = require('./controladores/cadastroDoCliente');
 const rotas = express();
 
-rotas.get('/', (req, res) => {
-  return res.status(200).json({ mensagem: "Tudo ok!" });
-})
+rotas.post('/clientes', cadastroDoCliente);
 
 module.exports = rotas;
