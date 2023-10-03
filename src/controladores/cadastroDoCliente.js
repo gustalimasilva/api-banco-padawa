@@ -6,15 +6,16 @@ async function cadastroDoCliente(req, res) {
 
   try {
 
-    const emailExiste = await knex('clientes').where({ email }).first();
+    const clienteExiste = await knex('clientes').where({ email }).andWhere({ id_banco }).first();
 
-    if (emailExiste) {
+    if (clienteExiste) {
       return res.status(400).json({ mensagem: "Não é possivel criar uma conta com esse email." });
     }
 
     const senhaCriptgofrada = await bcrypt.hash(senha, 10);
 
     await knex('clientes').insert({
+      id_banco,
       nome,
       email,
       senha: senhaCriptgofrada,
