@@ -20,6 +20,7 @@ async function cadastroDoCliente(req, res) {
       email,
       senha: senhaCriptgofrada,
       data_nascimento,
+      saldo: 0,
       cep
     })
 

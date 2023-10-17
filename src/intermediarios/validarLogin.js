@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
-const knex = require("../connection");
+const knex = require("./../conexao");
 
-async function verificarLogin(req, res, next) {
+async function validarLogin(req, res, next) {
   const { authorization } = req.headers;
 
   if (!authorization) {
@@ -13,15 +13,15 @@ async function verificarLogin(req, res, next) {
 
     const { id } = jwt.verify(token, process.env.HASH);
 
-    const usuarioExiste = await knex('users').where({ id }).first();
+    const clienteExiste = await knex('clientes').where({ id }).first();
 
-    if (!usuarioExiste) {
-      return res.status(404).json('Usuario não encontrado');
+    if (!clienteExiste) {
+      return res.status(404).json('Cliente não encontrado');
     }
 
-    const { password, ...usuario } = usuarioExiste;
+    const { password, ...cliente } = clienteExiste;
 
-    req.userLoged = usuario;
+    req.cliente = cliente;
 
     next();
   } catch (error) {
@@ -29,4 +29,4 @@ async function verificarLogin(req, res, next) {
   }
 }
 
-module.exports = verificarLogin;
+module.exports = validarLogin;
