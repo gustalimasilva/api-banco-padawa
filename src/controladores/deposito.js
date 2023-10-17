@@ -4,6 +4,10 @@ async function deposito(req, res) {
   const { deposito } = req.body
   const { id } = req.cliente
 
+  if (valor < 1) {
+    return res.status(400).json({ mensagem: "Deposito apenas possivel com numero maiores que zero." })
+  }
+
   try {
     const cliente = await knex('clientes').where({ id }).first()
     const novoSaldo = cliente.saldo + deposito
